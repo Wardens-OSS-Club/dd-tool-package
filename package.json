@@ -10,6 +10,9 @@
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
+    "playground": "ts-node src/playground.ts",
+    "play": "ts-node src/playground.ts",
+    "p": "ts-node src/playground.ts",
     "start": "ts-node src/index.ts",
     "dev": "ts-node src/index.ts",
     "build": "tsc",
@@ -19,6 +22,8 @@
     "doc": "tsc && jsdoc -c ./.jsdoc.json"
   },
   "dependencies": {
+    "ethers": "^6.7.1",
+    "ganache": "^7.9.1",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {
