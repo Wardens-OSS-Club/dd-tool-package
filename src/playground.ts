@@ -1,11 +1,7 @@
 import run from ".";
 import encodeCall, { decodeResponse } from "./ethers";
 import executeOne from "./executor";
-import {
-  EthersContract,
-  ExecutableContract,
-  OperationAndChecks,
-} from "./types";
+import { EthersContract, ExecutableContract } from "./types";
 
 const RPC_URL = "https://mainnet.infura.io/v3/c7663ea6ddf54fdbaa673941846b176c";
 
