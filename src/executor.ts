@@ -1,63 +1,67 @@
 // Runner receives tasks against a state and performs operations
 
-import { Provider } from "ganache";
-import { OperationAndChecks } from "./types";
+import { EthereumProvider } from "ganache";
+import { ExecutableContract } from "./types";
+
+// Obvious
+function cheatAddEth() {}
+
+function cheatAddERC20() {}
+
+function eth(amt: string | number): string {
+  return `0x${parseInt(String(amt), 10)}000000000000000000`;
+}
+
+// Function engrave
+
 // import syncWriteFile from "./file";
 
-// Run values against forked state, always go back to prev state
-export default async function execute(
-  ganache: Provider,
-  values: OperationAndChecks[]
-) {
-  // Take snapshot
-  // Ignore because it works but types are not updated or something
-  // @ts-ignore
-  const snapshotId = await ganache.send("evm_snapshot");
+// Eth_calls to get the return value
+// Then executes the TX
+// View tx would still happen, no biggie
+// Returns the value as bytes
+export default async function executeOne(
+  ganache: EthereumProvider,
+  operationData: ExecutableContract
+): Promise<string> {
+  // Account to impersonate
 
-  // TODO: run the set of checks
-  console.log("Running checks");
+  const caller = operationData.address; // NOTE: They need to have a balance or gg
 
-  for (const value of values) {
-    console.log("Operations");
-    for (const operation of value.operations) {
-      console.log("operation"); // TODO
-    }
+  // Empty passphrase
+  const passphrase = "";
 
-    for (const check of value.checks) {
-      // Account to impersonate
-      const caller = "0x4a0126Ee88018393b1AD2455060Bc350eAd9908A";
+  // We fund the account with an innocent amount
+  // @ts-ignore because obviously
+  await ganache.send("evm_setAccountBalance", [caller, eth(10)]);
 
-      // Empty passphrase
-      const passphrase = "";
+  // Adds the account
+  // @ts-ignore because obviously
+  await ganache.send("evm_addAccount", [caller, passphrase]);
 
-      // Adds the account
-      // @ts-ignore
-      await ganache.send("evm_addAccount", [caller, passphrase]);
+  // Unlocks it so you can use it
+  // @ts-ignore because obviously
+  await ganache.send("personal_unlockAccount", [caller, passphrase]);
 
-      // Unlocks it so you can use it
-      // @ts-ignore
-      await ganache.send("personal_unlockAccount", [caller, passphrase]);
+  const txData = {
+    from: caller,
+    to: operationData.address,
+    data: operationData.calldata,
+    value: operationData.value ? operationData.value : "0x0",
+  };
 
-      // Use ganache to perform the tx
-      // @ts-ignore because obviously
-      const viewRes = await ganache.send("eth_call", [
-        {
-          from: caller,
-          to: check.address,
-          data: check.calldata,
-          value: 0,
-        },
-      ]);
+  console.log("txData", txData);
 
-      console.log("viewRes", viewRes);
+  // Use ganache to perform the tx
 
-      // Todo given ABI decode the response (prob not at the runner level but at the "interpreter level")
-      // I'm pretty sure runner can feed bytes to bytes and ignore all types since EVM has words so interpretation of a chain of inputs is straightforward
-      // Unless some chains require human ops // Prob the case for uint64 -> uint256 in nice UI -> uint64 in input, which could cause the u64 to be too big for the next call
-    }
+  // Get th return value first
+  // @ts-ignore because obviously
+  const viewRes = await ganache.send("eth_call", [txData]);
+  console.log("viewRes", viewRes);
 
-    // Ignore because it works but types are not updated or something
-    // @ts-ignore
-    const isReverted = await ganache.send("evm_revert", [snapshotId]);
-  }
+  // To run the TX
+  // @ts-ignore because obviously
+  await ganache.send("eth_sendTransaction", [txData]);
+
+  return viewRes; // Return value
 }

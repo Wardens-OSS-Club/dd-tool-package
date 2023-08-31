@@ -25,6 +25,8 @@ export interface EthersContract {
   functionString: string; // Abi Function e.g. "function getRewards() external"
   address: string; // Address of the receiving contract
   inputs: string[]; // variableName[] A list of variables
+  value?: string;
+  gasLimit?: string;
 }
 
 // == INTERNAL == //
@@ -32,7 +34,7 @@ export interface ExecutableContract {
   // NOTE: We could add call vs static but I'm pretty sure it won't matter, except maybe for some weird edge case
   calldata: string;
   address: string; //
-  value: string; // Value to send
+  value?: string; // Value to send
   gasLimit?: string; // If unset we always use as much as possible
 }
 
