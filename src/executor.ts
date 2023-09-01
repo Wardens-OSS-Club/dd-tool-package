@@ -47,7 +47,7 @@ export default async function executeOne(
     from: caller,
     to: operationData.address,
     data: operationData.calldata,
-    value: operationData.value ? operationData.value : "0x0",
+    value: operationData.callInfo.value ? operationData.callInfo.value : "0x0",
   };
 
   console.log("txData", txData);
