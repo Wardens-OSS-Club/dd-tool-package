@@ -1,19 +1,17 @@
-import { OperationAndChecks } from "./types";
+import { CallInfo, DDCall, EthersContract } from "./types";
 
-export default async function createFakeOperationAndChecks(): Promise<
-  OperationAndChecks[]
-> {
-  const value = [
-    {
-      operations: [],
-      checks: [
-        {
-          address: "0xBA485b556399123261a5F9c95d413B4f93107407",
-          calldata: "0x77c7b8fc", // getPricePerFullShare
-        },
-      ],
-    },
-  ];
+export const theContract: EthersContract = {
+  functionString:
+    "function getPricePerFullShare() external view returns (uint256)",
+  address: "0xBA485b556399123261a5F9c95d413B4f93107407",
+};
 
-  return [value[0]];
-}
+export const theCallInfo: CallInfo = {
+  from: "0xBA485b556399123261a5F9c95d413B4f93107407",
+};
+
+export const theDDCall: DDCall = {
+  contract: theContract,
+  callInfo: theCallInfo,
+  inputs: [],
+};

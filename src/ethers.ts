@@ -2,12 +2,15 @@ import { Interface } from "ethers";
 import { EthersContract } from "./types";
 
 // Given Ethers representation, returns calldata
-export default function encodeCalldata(representation: EthersContract): string {
+export default function encodeCalldata(
+  representation: EthersContract,
+  inputs: string[]
+): string {
   const contractInterface = new Interface([representation.functionString]);
 
   const calldata = contractInterface.encodeFunctionData(
     representation.functionString,
-    representation.inputs
+    inputs
   );
 
   return calldata;

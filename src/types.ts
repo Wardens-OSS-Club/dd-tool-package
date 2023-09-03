@@ -6,7 +6,6 @@
 export interface EthersContract {
   functionString: string; // Abi Function e.g. "function getRewards() external"
   address: string; // Address of the receiving contract
-  inputs: string[]; // variableName[] A list of variables
 }
 
 // Details Pertaining to properties of the call not specifically imputable to ethers
@@ -29,12 +28,20 @@ export interface ExecutableContract {
 export interface DDCall {
   callInfo: CallInfo; // Details wrt to how to perform the call
   contract: EthersContract; // Details wrt to the Contract and the function being called
+  inputs: string[]; // Inputs are built by the tool via the processing
 }
 
 export interface DDStep {
   call: DDCall;
-  ouputMappings: string[]; // Empty string means we skip
-  inputMappings: string[]; // 0, 1, 2 are just variables for `EthersContract.inputs[]`
+  outputMappings: OutputMapping[]; // Empty string means we skip
+  inputMappings: InputMapping[]; // 0, 1, 2 are just variables for `EthersContract.inputs[]`
+}
+
+export type OutputMapping = string;
+
+export interface InputMapping {
+  type: "concrete" | "stateMapping";
+  value: string; // Bytes for concrete | Name of Variable for stateMapping
 }
 
 export type DDSequence = DDStep[];

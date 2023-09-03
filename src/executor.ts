@@ -3,13 +3,28 @@
 import { EthereumProvider } from "ganache";
 import { ExecutableContract } from "./types";
 
-// Obvious
+// TODO: Add Cheats
+// Or make them as custom Operations
 function cheatAddEth() {}
 
 function cheatAddERC20() {}
 
 function eth(amt: string | number): string {
   return `0x${parseInt(String(amt), 10)}000000000000000000`;
+}
+
+interface AdditionalSettings {
+  fundsToCaller: string; // How much ETH to give to caller
+  tokenToCaller: {
+    address: string;
+    amount: string; // Address of Token
+  };
+
+  // Maybe
+  // View Only -> Skip execution
+
+  // Maybe
+  // Catch Revert (or just bubble up)
 }
 
 // Function engrave
@@ -22,7 +37,8 @@ function eth(amt: string | number): string {
 // Returns the value as bytes
 export default async function executeOne(
   ganache: EthereumProvider,
-  operationData: ExecutableContract
+  operationData: ExecutableContract,
+  additionalSettings?: AdditionalSettings // TODO: Consider adding the extra settings
 ): Promise<string> {
   // Account to impersonate
 
