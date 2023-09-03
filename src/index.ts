@@ -8,7 +8,11 @@ import { parseFileAndRunGlobalLoop } from "./globalLoop";
 // And we always revert back to state X
 
 // No rpc means new ganache without fork
-export default async function run(rpcUrl?: string) {
+export default async function run(
+  rpcUrl?: string,
+  folder?: string,
+  fileName?: string
+) {
   // FORK
   const options: ServerOptions = rpcUrl
     ? {
@@ -34,7 +38,7 @@ export default async function run(rpcUrl?: string) {
 
       // A single huge function which handles the whole thing
       // Receives ganache and the sequence of functions
-      await parseFileAndRunGlobalLoop(ganache);
+      await parseFileAndRunGlobalLoop(ganache, folder, fileName);
     });
   })();
 }
@@ -47,4 +51,4 @@ export default async function run(rpcUrl?: string) {
 
 const RPC_URL = "https://mainnet.infura.io/v3/c7663ea6ddf54fdbaa673941846b176c";
 
-run(RPC_URL);
+run(RPC_URL, "task", "steps");
