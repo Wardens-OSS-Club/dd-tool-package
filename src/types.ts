@@ -46,8 +46,26 @@ export interface InputMapping {
 
 export type DDSequence = DDStep[];
 
+// TODO: Sequence + Settings from JSON
+
 export interface GlobalState {
   [variableName: string]: [value: any]; // Prob a base type for now | Has to be interpreted at assignment || Is passed back from and to Ethers
 }
 
 // Any insertion into GlobalState will be performed by
+
+export interface AdditionalSettings {
+  fundsToCaller?: string; // How much ETH to give to caller
+  tokenToCaller?: {
+    // TODO: PRANK
+    address: string;
+    amount: string; // Address of Token
+  };
+  alwaysFundCaller?: boolean;
+
+  // Maybe
+  // View Only -> Skip execution
+
+  // Maybe
+  // Catch Revert (or just bubble up)
+}

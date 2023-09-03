@@ -1,31 +1,8 @@
 // Runner receives tasks against a state and performs operations
 
 import { EthereumProvider } from "ganache";
-import { ExecutableContract } from "./types";
-
-// TODO: Add Cheats
-// Or make them as custom Operations
-function cheatAddEth() {}
-
-function cheatAddERC20() {}
-
-function eth(amt: string | number): string {
-  return `0x${parseInt(String(amt), 10)}000000000000000000`;
-}
-
-interface AdditionalSettings {
-  fundsToCaller: string; // How much ETH to give to caller
-  tokenToCaller: {
-    address: string;
-    amount: string; // Address of Token
-  };
-
-  // Maybe
-  // View Only -> Skip execution
-
-  // Maybe
-  // Catch Revert (or just bubble up)
-}
+import { AdditionalSettings, ExecutableContract } from "./types";
+import { eth } from "./mock";
 
 // Function engrave
 
@@ -48,8 +25,16 @@ export default async function executeOne(
   const passphrase = "";
 
   // We fund the account with an innocent amount
-  // @ts-ignore because obviously
-  await ganache.send("evm_setAccountBalance", [caller, eth(10)]);
+  if (additionalSettings?.fundsToCaller) {
+    // @ts-ignore because obviously
+    await ganache.send("evm_setAccountBalance", [
+      caller,
+      additionalSettings?.fundsToCaller,
+    ]);
+  } else if (additionalSettings?.alwaysFundCaller) {
+    // @ts-ignore because obviously
+    await ganache.send("evm_setAccountBalance", [caller, eth(10)]);
+  }
 
   // Adds the account
   // @ts-ignore because obviously
