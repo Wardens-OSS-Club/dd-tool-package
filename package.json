@@ -1,12 +1,12 @@
 {
-  "name": "typescript-package-starter",
-  "description": "A simple Typescript template to start your package",
+  "name": "dd-tool-package",
+  "description": "Uses Ganache to Fork the chain and run operations",
   "author": {
     "name": "Alex The Entreprenerd",
     "url": "https://github.com/GalloDaSballo",
     "email": "alex@entreprenerd.xyz"
   },
-  "version": "1.1.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
