@@ -94,12 +94,10 @@ export default async function theGlobalLoop(
   return STATE;
 }
 
-function getStepsFromFile(filePath: string): DDSequence {
-  const data = JSON.parse(openFile("task", filePath));
-  console.log("data", data);
+function getStepsFromFile(folder: string, name: string): DDSequence {
+  const data = JSON.parse(openFile(folder, name));
 
   const { sequence } = data;
-  console.log("sequence", sequence);
 
   // TODO: https://stackoverflow.com/questions/62854637/how-to-check-type-of-a-json-object-against-typescript-interface-in-react
   // You'd need to write some BS validator
@@ -110,13 +108,15 @@ function getStepsFromFile(filePath: string): DDSequence {
 
 // Outer FN needs to parse keys, run op, return state and return keys so it's convenient
 export async function parseFileAndRunGlobalLoop(
-  ganache: EthereumProvider
+  ganache: EthereumProvider,
+  folder: string,
+  name: string
 ): Promise<void> {
   // Read from file:
   // TODO: Internal Loop with Data Read from File
   // We return State
   // File Name prob via .env
-  const steps = getStepsFromFile("steps.json");
+  const steps = getStepsFromFile(folder, name);
 
   // NOTE: Safe default of always sending ETH
   await theGlobalLoop(ganache, steps, { alwaysFundCaller: true });

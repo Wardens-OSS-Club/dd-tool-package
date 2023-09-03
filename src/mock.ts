@@ -20,7 +20,7 @@ export function eth(amt: string | number): string {
   return `0x${parseInt(String(amt), 10)}000000000000000000`;
 }
 
-const MOCK_STEPS: DDSequence = [
+export const MOCK_STEPS: DDSequence = [
   {
     call: {
       callInfo: {
