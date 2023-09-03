@@ -42,13 +42,3 @@ export default async function run(
     });
   })();
 }
-
-// Function that receives ganache
-// Function that reads the instructions
-// Global Variables
-
-// Each iteration of the fn
-
-const RPC_URL = "https://mainnet.infura.io/v3/c7663ea6ddf54fdbaa673941846b176c";
-
-run(RPC_URL, "task", "steps.json");
