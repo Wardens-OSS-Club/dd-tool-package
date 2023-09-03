@@ -73,6 +73,7 @@ export default async function theGlobalLoop(
     const inputs = fromInputMappingsToInputs(currentOp.inputMappings, STATE);
 
     // Execute
+    // NOTE: If it revets it's done
     const response = await executeOne(
       ganache,
       makeExecutableTx(currentOp.call, inputs),
