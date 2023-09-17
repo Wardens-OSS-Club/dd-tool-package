@@ -112,7 +112,7 @@ export async function parseFileAndRunGlobalLoop(
   ganache: EthereumProvider,
   folder: string,
   name: string
-): Promise<void> {
+): Promise<GlobalState> {
   // Read from file:
   // TODO: Internal Loop with Data Read from File
   // We return State
@@ -120,5 +120,6 @@ export async function parseFileAndRunGlobalLoop(
   const steps = getStepsFromFile(folder, name);
 
   // NOTE: Safe default of always sending ETH
-  await theGlobalLoop(ganache, steps, { alwaysFundCaller: true });
+  const endState = await theGlobalLoop(ganache, steps, { alwaysFundCaller: true });
+  return endState
 }
