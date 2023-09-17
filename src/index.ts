@@ -1,6 +1,7 @@
 import Ganache, { ServerOptions } from "ganache";
 import theGlobalLoop, { parseFileAndRunGlobalLoop } from "./globalLoop";
 import { AdditionalSettings, DDSequence } from "./types";
+import startGanache from "./ganache";
 
 // Could be from ENV on test and if not being imported
 
@@ -12,16 +13,8 @@ export default async function run(
   folder?: string,
   fileName?: string
 ) {
-  // FORK
-  const options: ServerOptions = rpcUrl
-  ? {
-      fork: {
-        url: rpcUrl,
-      },
-    }
-  : {}; // Nothing if no rpc
+  const server = startGanache(rpcUrl)
 
-  const server = Ganache.provider(options);
   // A single huge function which handles the whole thing
   // Receives ganache and the sequence of functions
   await parseFileAndRunGlobalLoop(server, folder, fileName);
@@ -33,16 +26,8 @@ export async function runWithoutFile(
   // Global vs Local Ganache Settings so you can fork but, for and, etc...
   settings?: AdditionalSettings 
 ) {
-    // FORK
-    const options: ServerOptions = rpcUrl
-    ? {
-        fork: {
-          url: rpcUrl,
-        },
-      }
-    : {}; // Nothing if no rpc
+  const server = startGanache(rpcUrl)
   
-  const server = Ganache.provider(options);
   // A single huge function which handles the whole thing
   // Receives ganache and the sequence of functions
   await theGlobalLoop(server, sequence, settings ? settings : { alwaysFundCaller: true })
