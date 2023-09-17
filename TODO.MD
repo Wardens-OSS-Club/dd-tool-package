@@ -1,5 +1,3 @@
-- [ ] Refactor to use Provider and not Server (make it work with browser)
-
 - [ ] Add Testing
 - [ ] Add Codegen (or do in separate package)
 
