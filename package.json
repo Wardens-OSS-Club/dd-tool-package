@@ -6,7 +6,7 @@
     "url": "https://github.com/GalloDaSballo",
     "email": "alex@entreprenerd.xyz"
   },
-  "version": "1.4.0",
+  "version": "1.4.2",
   "main": "lib/index.js",
   "license": "MIT",
   "scripts": {
