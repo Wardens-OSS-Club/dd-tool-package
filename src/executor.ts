@@ -19,7 +19,7 @@ export default async function executeOne(
 ): Promise<string> {
   // Account to impersonate
 
-  const caller = operationData.address; // NOTE: They need to have a balance or gg
+  const caller = operationData.callInfo.from; // NOTE: They need to have a balance or gg
 
   // Empty passphrase
   const passphrase = "";
